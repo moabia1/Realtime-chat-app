@@ -4,7 +4,7 @@ import dotenv from "dotenv"
 import fileUpload from "express-fileupload"
 import cors from "cors"
 import connectToDb from "./db/db.js"
-
+import userRoutes from "./routes/user.routes.js"
 
 dotenv.config();
 const app = express()
@@ -27,4 +27,6 @@ app.use(fileUpload({
   tempFileDir: "./temp/"
 }))
 
+
+app.use("/user",userRoutes)
 export default app
