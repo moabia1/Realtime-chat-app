@@ -2,7 +2,7 @@ import { asyncError } from "../middlewares/asyncError.middleware.js"
 import { userModel } from "../models/user.model.js";
 import bcrypt from "bcryptjs"
 import { generateJwtToken } from "../utils/jwtToken.js";
-
+import {v2 as cloudinary} from "cloudinary"
 
 export const signupController = asyncError(async (req, res) => {
 
@@ -107,6 +107,71 @@ export const signoutController = asyncError(async (req, res) => {
     });
 })
 
-export const getUserController = asyncError(async(req, res) => {})
+export const getUserController = asyncError(async (req, res) => {
+  const user = req.user;
 
-export const updateProfileController = asyncError(async(req, res) => {})
+  res.status(200).json({
+    success: true,
+    message: "user fetch successfully",
+    user
+  })
+})
+
+export const updateProfileController = asyncError(async (req, res) => {
+  const { fullName, email } = req.body;
+  if (fullName.trim().length === 0 || email.trim().length === 0) {
+    return res.status(400).json({
+      success: false,
+      message:"fullNAme and email can't be empty"
+    })
+  }
+
+  const avatar = req.files?.avatar;
+  let cloudinaryResponse = {}
+
+  if (avatar) {
+    try {
+      const oldAvatarId = req?.user?.avatar?.public_id;
+      if (oldAvatarId && oldAvatarId.length > 0) {
+        await cloudinary.uploader.destroy(oldAvatarId)
+      }
+
+      cloudinaryResponse = await cloudinary.uploader.upload(avatar.tempFilePath, {
+        folder: "chat-app-avatars",
+        transformation: [
+          { width: 300, height: 300, crop: "limit" },
+          { quality: "auto" },
+          {fetch_format:"auto"}
+        ]
+      })
+      console.log("Avatar file:", avatar);
+      console.log("Cloudinary response:", cloudinaryResponse);
+
+    } catch (error) {
+      console.error("Cloudinary upload error",error)
+    }
+  }
+
+  let data = {
+    fullName,
+    email
+  }
+
+  if (avatar && cloudinaryResponse?.public_id && cloudinaryResponse?.secure_url) {
+    data.avatar = {
+      public_id: cloudinaryResponse.public_id,
+      url:cloudinaryResponse.secure_url
+    }
+  }
+
+  let user = await userModel.findByIdAndUpdate(req.user._id, data, {
+    new: true,
+    runValidators:true
+  })
+
+  res.status(200).json({
+    success: true,
+    message: "user update succesfully",
+    user
+  })
+})
