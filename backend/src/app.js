@@ -5,6 +5,7 @@ import fileUpload from "express-fileupload"
 import cors from "cors"
 import connectToDb from "./db/db.js"
 import userRoutes from "./routes/user.routes.js"
+import messageRoutes from "./routes/message.routes.js"
 
 dotenv.config();
 const app = express()
@@ -28,5 +29,6 @@ app.use(fileUpload({
 }))
 
 
-app.use("/user",userRoutes)
+app.use("/user", userRoutes)
+app.use("/messages",messageRoutes)
 export default app
