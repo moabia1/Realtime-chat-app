@@ -148,7 +148,11 @@ export const updateProfileController = asyncError(async (req, res) => {
       console.log("Cloudinary response:", cloudinaryResponse);
 
     } catch (error) {
-      console.error("Cloudinary upload error",error)
+      console.error("Cloudinary upload error: ", error);
+      return res.status(500).json({
+        success: false,
+        message: "Failed to upload avatar please try again later",
+      });
     }
   }
 
