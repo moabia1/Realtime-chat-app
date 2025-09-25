@@ -13,6 +13,7 @@ export function initSocketServer(httpServer) {
     console.log("User Connected", socket.id)
     
     const userId = socket.handshake.query.userId;
+    
     if (!userId || typeof userId !== "string") {
       console.log("Invalid userId, rejecting connection");
       socket.disconnect();
