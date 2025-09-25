@@ -1,6 +1,10 @@
 import app from "./src/app.js"
+import http from "http"
 import { v2 as cloudinary } from "cloudinary"
+import { initSocketServer } from "./src/sockets/socket.server.js"
 
+const server = http.createServer(app)
+initSocketServer(server);
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
