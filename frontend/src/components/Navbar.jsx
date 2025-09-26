@@ -1,16 +1,16 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import {LogOut, MessagesSquare, User} from "lucide-react"
-import { logout } from '../store/slice/authSlice'
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { LogOut, MessagesSquare, User } from "lucide-react";
+import { logout } from "../store/slice/authSlice";
 
 const Navbar = () => {
-  const { authUser } = useSelector((state) => state.auth)
+  const { authUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    dispatch(logout())
-  }
+    dispatch(logout());
+  };
 
   return (
     <>
@@ -57,6 +57,6 @@ const Navbar = () => {
       </header>
     </>
   );
-}
+};
 
-export default Navbar
+export default Navbar;
