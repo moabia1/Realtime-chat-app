@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../store/slice/authSlice";
+import { MessageSquare } from "lucide-react";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
