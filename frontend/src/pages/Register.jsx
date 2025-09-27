@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../store/slice/authSlice";
 import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare, User } from "lucide-react";
+import AuthImage from "../components/AuthImage";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -56,7 +57,6 @@ const Register = () => {
                   />
                 </div>
               </div>
-
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -124,8 +124,30 @@ const Register = () => {
                 )}
               </button>
             </form>
+
+            {/* Footer */}
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-500">
+                Already have an account?{" "}
+                <Link
+                  to="/login"
+                  className="text-blue-600 hover:underline font-medium"
+                >
+                  Sign In
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
+
+        {/* Right Side */}
+        <AuthImage
+          title={"Join our Community"}
+          subtitle={
+            "connect with friends and family share your thounghts and stay in touch with your loved ones"
+          }
+        />
+
       </div>
     </>
   );
