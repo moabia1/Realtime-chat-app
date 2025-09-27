@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Eye, EyeOff, Loader, Loader2, Lock, Mail, MessageSquare, } from "lucide-react";
-import {Link, useNavigate} from "react-router-dom"
+import {Link} from "react-router-dom"
 import AuthImage from "../components/AuthImage";
 import { login } from "../store/slice/authSlice";
 
@@ -13,12 +13,10 @@ const Login = () => {
   });
   const { isLoggingIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(login(formData))
-    navigate("/")
   };
 
   return (
