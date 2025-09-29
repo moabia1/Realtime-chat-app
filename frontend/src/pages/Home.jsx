@@ -17,7 +17,7 @@ const Home = () => {
             <div className='flex h-full overflow-hidden'>
               <SideBar />
               
-              {!selectedUser ? <NoChatSelected/> : <ChatContainer/>}
+              {/* {!selectedUser ? <NoChatSelected/> : <ChatContainer/>} */}
             </div>
           </div>
         </div>

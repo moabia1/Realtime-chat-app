@@ -11,7 +11,7 @@ export const getAllUserController = asyncError(async (req, res, next) => {
   const filterUser = await userModel.find({ _id: { $ne: user } }).select("-password")
   res.status(200).json({
     success: true,
-    filterUser
+    users:filterUser
   })
 })
 
