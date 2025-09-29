@@ -8,7 +8,7 @@ import {setSelectedUser} from "../store/slice/chatSlice"
 const SideBar = () => {
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
   const { users, selectedUser, isUsersLoading } = useSelector(
-    (state) => state.chat
+    (state) => state.chat 
   );
   const { onlineUsers } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const SideBar = () => {
   }, [dispatch]);
 
   const filteredUsers = showOnlineOnly
-    ? users.filter((user) => onlineUsers.includes(user._id))
+    ? users.filter((user) => onlineUsers?.includes(user._id))
     : users;
 
   if (isUsersLoading) return <SlidebarSkeleton />;
@@ -62,7 +62,7 @@ const SideBar = () => {
                 className={`w-full p-3 flex items-center gap-3 transition-colors rounded-md ${
                   selectedUser?._id === user._id
                     ? "bg-gray-200 ring-gray-200"
-                    : "bg-gray-200"
+                    : "hover:bg-gray-200"
                 }`}
               >
                 {/* avatar */}
