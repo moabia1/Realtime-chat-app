@@ -7,7 +7,8 @@ import ChatContainer from '../components/ChatContainer'
 
 
 const Home = () => {
-  // const { } = useSelector((state) => state.chat)
+  const { selectedUser } = useSelector((state) => state.chat)
+  
   
   return (
     <>
@@ -16,8 +17,7 @@ const Home = () => {
           <div className='bg-white rounded-lg shadow-md w-full max-w-6xl h-[calc(100vh-8rem)]'>
             <div className='flex h-full overflow-hidden'>
               <SideBar />
-              
-              {/* {!selectedUser ? <NoChatSelected/> : <ChatContainer/>} */}
+              {!selectedUser ? <NoChatSelected/> : <ChatContainer/>}
             </div>
           </div>
         </div>
