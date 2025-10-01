@@ -26,9 +26,9 @@ const SideBar = () => {
 
   return (
     <>
-      <aside className="h-full w-20 lg:w-72 border-r border-gray-300 flex flex-col transition-all duration-200 bg-white">
+      <aside className="h-full w-20 lg:w-72 border-r border-gray-200 flex flex-col transition-all duration-200 bg-white rounded-md">
         {/* Header */}
-        <div className="border-b border-gray-300 w-full p-5">
+        <div className="border-b border-gray-200 w-full p-5">
           <div className="flex items-center gap-2">
             <Users className="w-5 h-5 text-gray-700" />
             <span className="font-medium hidden lg:block text-gray-800">
