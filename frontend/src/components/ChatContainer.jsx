@@ -60,7 +60,7 @@ const ChatContainer = () => {
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
           {messages?.length > 0 &&
             messages.map((message, index) => {
-              const isSender = message.senderId === authUser._id;
+              const isSender = message?.senderId === authUser?._id;
               return (
                 <div
                   key={message._id}
