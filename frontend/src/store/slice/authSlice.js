@@ -5,9 +5,7 @@ import { toast } from "react-toastify";
 
 export const getUser = createAsyncThunk("/user/me", async (_, thunkAPI) => {
   try {
-    const res = await axiosInstance.get("/user/me", {
-      withCredentials:true
-    });
+    const res = await axiosInstance.get("/user/me");
     return res.data.user;
   } catch (error) {
     const payload =
