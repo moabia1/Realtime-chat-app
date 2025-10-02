@@ -77,6 +77,7 @@ const authSlice = createSlice({
     isUpdatingProfile: false,
     isCheckingAuth: true,
     onlineUsers: [],
+    updateError: null
   },
   reducers: {
     setOnlineUsers(state, action) {
@@ -120,14 +121,17 @@ const authSlice = createSlice({
       state.isSigningUp = false
     })
       .addCase(updateProfile.pending, (state) => {
-      state.isUpdatingProfile = true
+        state.isUpdatingProfile = true,
+        state.updateError = null
+    })
+      .addCase(updateProfile.fulfilled, (state,action) => {
+        state.isUpdatingProfile = false,
+          state.authUser = action.payload,
+          state.updateError = null
     })
       .addCase(updateProfile.rejected, (state,action) => {
         state.isUpdatingProfile = false,
-        state.authUser = action.payload
-    })
-      .addCase(updateProfile.rejected, (state) => {
-      state.isUpdatingProfile = false
+        state.updateError = action.payload || "Email not available";
     })
   },
 });
