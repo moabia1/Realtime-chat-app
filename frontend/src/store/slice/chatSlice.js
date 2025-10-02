@@ -4,8 +4,10 @@ import { toast } from "react-toastify";
 
 export const getUsers = createAsyncThunk("chat/getuser", async (_, thunkAPI) => {
   try {
-    const res = await axiosInstance.get("/messages/users");
-    return  res.data.users
+    const res = await axiosInstance.get("/messages/users", {
+      withCredentials:true
+    });
+    return res.data.users
   } catch (error) {
     const payload = error.response?.data?.message;
     toast.error(error.response?.data?.message)

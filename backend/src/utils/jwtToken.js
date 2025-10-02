@@ -9,7 +9,7 @@ export const generateJwtToken = async (user, message, statusCode, res) => {
     httpOnly: true,
     maxAge: process.env.COOKIE_EXPIRE*24*60*60*1000,
     sameSite: "strict",
-    secure: process.env.NODE_ENV !== "development" ? true : false,
+    secure: true
   }).json({
     success: true,
     message,
