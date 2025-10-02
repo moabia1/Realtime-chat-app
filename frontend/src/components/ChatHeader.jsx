@@ -16,7 +16,7 @@ const ChatHeader = () => {
             {/* AVATAR */}
             <div className="relative w-10 h-10">
               <img
-                src={selectedUser?.avatar?.url || "/avatar-holder.avif"}
+                src={selectedUser.avatar.url || "/avatar-holder.avif"}
                 alt="/avatar-holder.avi"
                 className='w-full h-full object-cover rounded-full'
               />

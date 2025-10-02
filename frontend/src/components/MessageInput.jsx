@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getSocket } from "../lib/socket";
 import { Image, Send, X } from "lucide-react";
+import { sendMessage } from "../store/slice/chatSlice";
 
 const MessageInput = () => {
-  const [text, setText] = useState(null);
+  const [text, setText] = useState("");
   const [mediaPreview, setMediaPreview] = useState(null);
   const [media, setMedia] = useState(null);
   const [mediaType, setMediaType] = useState("");
@@ -20,7 +21,7 @@ const MessageInput = () => {
     setMedia(file);
 
     const type = file.type;
-    if (type.startWith("image/")) {
+    if (type.startsWith("image/")) {
       setMediaType("image");
       const reader = new FileReader();
       reader.onload = () => {
@@ -55,7 +56,7 @@ const MessageInput = () => {
     data.append("text", text.trim());
     data.append("media", media);
 
-    // dispatch(sendMessage(data))
+    dispatch(sendMessage(data))
 
     // Reset All
     setText("");
@@ -78,8 +79,10 @@ const MessageInput = () => {
     };
 
     socket.on("newMessage", handleNewMessage);
-    return socket.off("newMessage", handleNewMessage);
+    return ()=> socket.off("newMessage", handleNewMessage);
   }, [selectedUser._id]);
+
+
   return (
     <>
       <div className="p-4 w-full">
@@ -140,7 +143,7 @@ const MessageInput = () => {
           <button
             type="submit"
             className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50"
-            disabled={!text.trim() && !media}
+            disabled={!text?.trim() && !media}
           >
             <Send size={22}/>
           </button>

@@ -11,7 +11,7 @@ const ChatContainer = () => {
   const { messages, isMessageLoading, selectedUser } = useSelector(
     (state) => state.chat
   );
-  const { authUser } = useSelector((state) => state.chat);
+  const { authUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const messageEndRef = useRef();
@@ -58,7 +58,7 @@ const ChatContainer = () => {
 
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-6">
-          {messages.length > 0 &&
+          {messages?.length > 0 &&
             messages.map((message, index) => {
               const isSender = message.senderId === authUser._id;
               return (
@@ -124,6 +124,7 @@ const ChatContainer = () => {
               );
             })}
         </div>
+        <MessageInput/>
       </div>
     </>
   );

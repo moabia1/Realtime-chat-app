@@ -2,7 +2,6 @@ import React from 'react'
 import { useSelector } from "react-redux"
 import SideBar from '../components/SideBar'
 import NoChatSelected from '../components/NoChatSelected'
-import ChatWindow from '../components/ChatWindow'
 import ChatContainer from '../components/ChatContainer'
 
 

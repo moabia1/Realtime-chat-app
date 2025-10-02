@@ -24,6 +24,18 @@ export const getMessages = createAsyncThunk("/user/message", async (userId, thun
   }
 })
 
+export const sendMessage = createAsyncThunk("chat/sendMessage", async (messageData, thunkAPI) => {
+  try {
+    const { chat } = thunkAPI.getState()
+    const res = await axiosInstance.post(`/messages/send/${chat.selectedUser._id}`, messageData)
+    return res.data;
+  } catch (error) {
+    const payload = error.message?.response?.data;
+    toast.error(payload)
+    return thunkAPI.rejectWithValue(payload)
+  }
+})
+
 const chatSlice = createSlice({
   name: "chat",
   initialState: {
@@ -56,11 +68,14 @@ const chatSlice = createSlice({
       state.isMessagesLoading = true
     })
       .addCase(getMessages.fulfilled, (state, action) => {
-      state.messages = action.payload
+      state.messages = action.payload.message
       state.isMessagesLoading = false
     })
       .addCase(getMessages.rejected, (state) => {
       state.isMessagesLoading = false
+    })
+      .addCase(sendMessage.fulfilled, (state,action) => {
+      state.messages.push(action.payload)
     })
   }
 })
