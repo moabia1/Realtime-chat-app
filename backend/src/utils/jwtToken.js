@@ -5,14 +5,17 @@ export const generateJwtToken = async (user, message, statusCode, res) => {
     expiresIn: process.env.JWT_EXPIRE,
   });
 
-  return res.status(statusCode).cookie("token", token, {
-    httpOnly: true,
-    maxAge: process.env.COOKIE_EXPIRE*24*60*60*1000,
-    sameSite: "strict",
-    secure: true
-  }).json({
-    success: true,
-    message,
-    token
-  })
+  return res
+    .status(statusCode)
+    .cookie("token", token, {
+      httpOnly: true,
+      maxAge: process.env.COOKIE_EXPIRE * 24 * 60 * 60 * 1000,
+      sameSite: "None",
+      secure: process.env.NODE_ENV === "development" || true
+    })
+    .json({
+      success: true,
+      message,
+      token,
+    });
 }
