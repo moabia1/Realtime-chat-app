@@ -119,34 +119,47 @@ export const getUserController = asyncError(async (req, res) => {
 
 export const updateProfileController = asyncError(async (req, res) => {
   const { fullName, email } = req.body;
+
   if (fullName.trim().length === 0 || email.trim().length === 0) {
     return res.status(400).json({
       success: false,
-      message:"fullNAme and email can't be empty"
-    })
+      message: "fullName and email can't be empty",
+    });
+  }
+
+  // Check for duplicate email
+  const existingUser = await userModel.findOne({
+    email,
+    _id: { $ne: req.user._id },
+  });
+  if (existingUser) {
+    return res.status(400).json({
+      success: false,
+      message: "This email is already in use by another account",
+    });
   }
 
   const avatar = req.files?.avatar;
-  let cloudinaryResponse = {}
+  let cloudinaryResponse = {};
 
   if (avatar) {
     try {
       const oldAvatarId = req?.user?.avatar?.public_id;
       if (oldAvatarId && oldAvatarId.length > 0) {
-        await cloudinary.uploader.destroy(oldAvatarId)
+        await cloudinary.uploader.destroy(oldAvatarId);
       }
 
-      cloudinaryResponse = await cloudinary.uploader.upload(avatar.tempFilePath, {
-        folder: "chat-app-avatars",
-        transformation: [
-          { width: 300, height: 300, crop: "limit" },
-          { quality: "auto" },
-          {fetch_format:"auto"}
-        ]
-      })
-      console.log("Avatar file:", avatar);
-      console.log("Cloudinary response:", cloudinaryResponse);
-
+      cloudinaryResponse = await cloudinary.uploader.upload(
+        avatar.tempFilePath,
+        {
+          folder: "chat-app-avatars",
+          transformation: [
+            { width: 300, height: 300, crop: "limit" },
+            { quality: "auto" },
+            { fetch_format: "auto" },
+          ],
+        }
+      );
     } catch (error) {
       console.error("Cloudinary upload error: ", error);
       return res.status(500).json({
@@ -156,26 +169,27 @@ export const updateProfileController = asyncError(async (req, res) => {
     }
   }
 
-  let data = {
-    fullName,
-    email
-  }
+  let data = { fullName, email };
 
-  if (avatar && cloudinaryResponse?.public_id && cloudinaryResponse?.secure_url) {
+  if (
+    avatar &&
+    cloudinaryResponse?.public_id &&
+    cloudinaryResponse?.secure_url
+  ) {
     data.avatar = {
       public_id: cloudinaryResponse.public_id,
-      url:cloudinaryResponse.secure_url
-    }
+      url: cloudinaryResponse.secure_url,
+    };
   }
 
   let user = await userModel.findByIdAndUpdate(req.user._id, data, {
     new: true,
-    runValidators:true
-  })
+    runValidators: true,
+  });
 
   res.status(200).json({
     success: true,
-    message: "user update succesfully",
-    user
-  })
-})
+    message: "User updated successfully",
+    user,
+  });
+});
