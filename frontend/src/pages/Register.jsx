@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../store/slice/authSlice";
 import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare, User } from "lucide-react";
 import AuthImage from "../components/AuthImage";
+import {Link} from "react-router-dom"
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
