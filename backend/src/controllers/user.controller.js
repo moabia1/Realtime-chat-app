@@ -98,8 +98,8 @@ export const signoutController = asyncError(async (req, res) => {
     .cookie("token", "", {
       httpOnly: true,
       maxAge: 0,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV !== "development" ? true : false,
+      sameSite: "None",
+      secure: true,
     })
     .json({
       success: true,
